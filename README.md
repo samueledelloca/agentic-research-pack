@@ -45,6 +45,9 @@ findings through the tools, and have a *different* agent independently recompute
   system are scored, every metric computed from real outputs.
 - **Reproducibility by construction.** Fixed seeds, versioned data with checksums, recorded prompts,
   agent configs and model versions, per-run logs, pinned dependencies, executable workflows.
+- **A tool-call ledger.** Every tool call, from any caller, is logged at the registry with its
+  arguments, data version and an output hash, so a reported number can be replayed exactly and
+  disagreements between agent runs can be traced to their source.
 - **A documentation ledger.** Every hypothesis with the evidence for and against it, which were
   rejected, which were tested, and the prompts, configs, and code behind each, kept as
   machine-checkable files rather than buried in prose.

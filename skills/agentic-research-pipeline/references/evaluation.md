@@ -29,6 +29,8 @@ ones that apply to your domain and drop those that do not (e.g. "domain plausibi
   reports computations, not inventions.
 - **Determinism / reproducibility.** Does the committed pipeline produce the same results on re-run,
   ideally with no credentials (deterministic backend)? Record whether live-model reasoning is on.
+- **Replayability.** Fraction of reported numbers whose tool call, replayed from the ledger, returns
+  the same output hash. Target 1.0; list every mismatch with its cause.
 - **Citation accuracy.** Fraction of citations that actually support the specific claim they are
   attached to, with correct metadata (see the literature-audit section below).
 - **Tool-use accuracy.** Did agents call permitted tools correctly and stay within their toolset?
@@ -75,4 +77,7 @@ Use a literature agent (scite MCP where available, else WebSearch + WebFetch). T
   robustness functions behave on known inputs, that the grounding check fails when a number is
   perturbed, and that the false-hypothesis test rejects a planted null.
 - Keep per-run logs (`experiments/`) as evidence: each log holds the prompt, the tool calls, and the
-  output for one agent run, so any result can be traced back to how it was produced.
+  output for one agent run, so any result can be traced back to how it was produced. Keep the
+  tool-call ledger alongside them, and add a test that replays a sample of logged calls and asserts
+  matching output hashes, plus one that confirms an MCP call and an in-session call both reach the
+  ledger.

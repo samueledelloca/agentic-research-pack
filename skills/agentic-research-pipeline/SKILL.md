@@ -196,6 +196,14 @@ reasoning happens*; findings are tool-computed in every mode, so results reprodu
 Design the tool layer so one registry can be called three ways without change: directly in-session,
 through an MCP server, or through the API tool-use loop. One tool registry, three callers.
 
+**Log every call at the registry.** Put a call ledger inside the registry's single dispatch function,
+so that every call is recorded whichever caller made it. Each record holds the tool name, the
+canonical arguments, the data version (checksums of the inputs the tool read), the code version, the
+caller, the run id, and a SHA-256 hash of the canonical output. A logger placed in one caller (say,
+the agent wrapper) silently misses the MCP and pipeline paths. In the source project this was the
+gap, because agent runs logged their calls while the server and the discovery loop logged nothing.
+Schema and replay rules are in `references/architecture.md`.
+
 ## The pipeline (seven stages)
 
 Run these in order. Stages 2 to 5 form the discovery loop and can iterate. Each stage names the
@@ -211,7 +219,9 @@ agent role that owns it (roles defined in `references/architecture.md`).
    *restricted* toolset and record the permissions.
 
 3. **Reproduce.** Re-derive the source's own headline claims from its own data, through the tools.
-   Report a fidelity number (reproduced value vs the source's reported value). Reproduction that
+   Report a fidelity number (reproduced value vs the source's reported value), and store the
+   call-ledger id of the computation next to each reproduced claim, so anyone can replay the exact
+   call and compare output hashes. Reproduction that
    matches is the license to go further; reproduction that fails is itself a finding.
 
 4. **Discover.** For each question: a specialist agent answers it via tools; an **independent
@@ -230,7 +240,8 @@ agent role that owns it (roles defined in `references/architecture.md`).
 
 7. **Evaluate, test, report.** Score both the science and the AI system on the two-axis framework.
    Write automated tests over all AI-generated code and run them. Log every agent run (prompt, tool
-   calls, output). Then draft the report with numeric citations and the user's style rules, and
+   calls, output) and keep the tool-call ledger; replay the calls behind the reported numbers and
+   check that the output hashes match. Then draft the report with numeric citations and the user's style rules, and
    archive datasets + results with a DOI. End with an honest disclaimer: the author verified the
    process, not necessarily the domain validity.
 
@@ -274,4 +285,5 @@ These are what separated a defensible deliverable from an impressive-looking one
   **illustrative** until the evidence earns more.
 - The author remains responsible for every AI output and must be able to explain every component.
   Inspect and test AI-generated code; never accept it blind.
-- Record enough to reproduce: prompts, agent configs, model versions, seeds, data versions, logs.
+- Record enough to reproduce: prompts, agent configs, model versions, seeds, data versions, logs,
+  and the tool-call ledger.

@@ -122,10 +122,43 @@ For each major hypothesis, keep a row with: (1) the hypothesis; (2) evidence sup
 AI-generated code that produced it. Store these as structured files (e.g. `questions.json`,
 `observations.json`, `contradictions.json`) so they are machine-checkable, not prose buried in a report.
 
+Each graduated finding and each reproduced claim also lists the ids of the tool calls that produced
+its numbers (see the tool-call ledger below).
+
+## Tool-call ledger
+
+A run log says what an agent did. The tool-call ledger says what the tools computed, for every
+caller. Write it from the registry's dispatch function (`call(tool, **args)`), never from one caller,
+as one JSON line per call in `experiments/tool_calls/<run_id>.jsonl`:
+
+| Field | Content |
+|---|---|
+| `call_id` | unique id, cited by findings and reproduced claims |
+| `run_id`, `caller` | the run, and which path made the call (in-session, MCP, API loop, pipeline) |
+| `tool`, `args` | tool name and arguments as canonical JSON (sorted keys) |
+| `data_version` | checksums of the dataset files the tool read (reuse the provenance manifests) |
+| `code_version` | git commit, flagged dirty if the tree has uncommitted changes |
+| `seed` | when the tool samples, bootstraps or permutes |
+| `output_sha256` | hash of the canonical JSON output |
+| `ts`, `duration_s` | timestamp and latency |
+
+Canonicalise before hashing (sorted keys, floats rounded to a fixed precision, rows in a stable
+order), or harmless formatting noise breaks the hash. Keep the full output only when it is small;
+the hash plus a replay is enough to prove the rest.
+
+The ledger buys three things. **Replay**, because a reviewer can re-run the exact call behind a
+reported p value and compare hashes. **Disagreement tracing**, because when two agent runs or the
+specialist and the evidence-checker disagree, a diff of their ledgers shows whether they called
+different tools, passed different arguments, or read different data versions. **Grounding audits**,
+because each reported number can be matched to the call that computed it, which is how the grounding
+metric in `evaluation.md` gets computed. A hash mismatch on replay is a finding, never noise to be
+silenced; it means the data, the code or the seed changed.
+
 ## Reproducibility checklist
 
 Fix random seeds. Version datasets (source id + per-file checksum). Record model versions, prompts,
-and agent configurations. Log every experiment. Save intermediate results. Pin software dependencies.
+and agent configurations. Log every experiment. Log every tool call at the registry with its data
+version and output hash. Save intermediate results. Pin software dependencies.
 Provide executable workflows. Provide independent verification. Inspect and test AI-generated code
 rather than accepting it blind.
 
