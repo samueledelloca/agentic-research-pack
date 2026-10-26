@@ -139,6 +139,7 @@ as one JSON line per call in `experiments/tool_calls/<run_id>.jsonl`:
 | `data_version` | checksums of the dataset files the tool read (reuse the provenance manifests) |
 | `code_version` | git commit, flagged dirty if the tree has uncommitted changes |
 | `seed` | when the tool samples, bootstraps or permutes |
+| `replay` | the tool's replay class (`exact`, `seeded`, `tolerance`; see below) |
 | `output_sha256` | hash of the canonical JSON output |
 | `ts`, `duration_s` | timestamp and latency |
 
@@ -153,6 +154,24 @@ different tools, passed different arguments, or read different data versions. **
 because each reported number can be matched to the call that computed it, which is how the grounding
 metric in `evaluation.md` gets computed. A hash mismatch on replay is a finding, never noise to be
 silenced; it means the data, the code or the seed changed.
+
+**Tools that cannot replay exactly.** Hash equality only holds for deterministic tools. Declare each
+tool's replay class in the registry (`replay: exact | seeded | tolerance`) and log it in every record.
+
+- *Exact.* Pure computations over versioned data. Replay must match the hash.
+- *Seeded.* Sampling, bootstrap, permutation, or model fitting with a controllable seed. Record the
+  seed and the library versions; replay with the same seed must match the hash. Where hardware still
+  adds noise (multithreaded BLAS, GPU kernels), pin the thread count or move the tool to the next class.
+- *Tolerance.* Anything irreducibly variable, such as a live model call, an external API or a web
+  search, or data that changes over time. Store the full output (not just the hash), plus the model
+  id, its parameters and, where possible, a snapshot of the external response. Declare up front what
+  must agree on replay and how closely: a numeric tolerance on the reported quantity, the same label
+  or decision, or a distribution check over k reruns with the spread reported. Fix the tolerance before
+  replaying, never after seeing the result.
+
+Keep stochasticity out of the computation tools where you can. Agents reason and tools compute, so a
+live model belongs in the agent layer, while the tools it calls stay exact or seeded. Then every
+reported number still replays exactly even when the reasoning that chose it does not.
 
 ## Reproducibility checklist
 

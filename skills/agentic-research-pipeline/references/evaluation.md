@@ -30,7 +30,10 @@ ones that apply to your domain and drop those that do not (e.g. "domain plausibi
 - **Determinism / reproducibility.** Does the committed pipeline produce the same results on re-run,
   ideally with no credentials (deterministic backend)? Record whether live-model reasoning is on.
 - **Replayability.** Fraction of reported numbers whose tool call, replayed from the ledger, returns
-  the same output hash. Target 1.0; list every mismatch with its cause.
+  the same output hash (exact and seeded tools) or agrees within its pre-declared tolerance
+  (tolerance-class tools; see the ledger section of `architecture.md`). Report the two fractions
+  separately, so a tolerance pass is never presented as exact replay. Target 1.0 for both; list
+  every mismatch with its cause.
 - **Citation accuracy.** Fraction of citations that actually support the specific claim they are
   attached to, with correct metadata (see the literature-audit section below).
 - **Tool-use accuracy.** Did agents call permitted tools correctly and stay within their toolset?

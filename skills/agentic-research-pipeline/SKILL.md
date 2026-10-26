@@ -202,7 +202,9 @@ canonical arguments, the data version (checksums of the inputs the tool read), t
 caller, the run id, and a SHA-256 hash of the canonical output. A logger placed in one caller (say,
 the agent wrapper) silently misses the MCP and pipeline paths. In the source project this was the
 gap, because agent runs logged their calls while the server and the discovery loop logged nothing.
-Schema and replay rules are in `references/architecture.md`.
+Tools that cannot replay exactly (a live model call, an external API) are declared as such and
+replayed within a tolerance fixed in advance. Schema and replay rules are in
+`references/architecture.md`.
 
 ## The pipeline (seven stages)
 
