@@ -7,8 +7,8 @@ reproduces, instead of reading like a confident essay.
 
 Distilled from a biology project (an "autonomous AI scientist" built from a Nature study), rebuilt to
 be field-agnostic. It is the **execution** counterpart to the ideation skill
-[`research-companion`](https://github.com/andrehuang/researcher-pack): research-companion decides *what*
-to pursue; this pack runs the investigation end to end.
+[`research-companion`](https://github.com/andrehuang/research-companion): research-companion decides
+*what* to pursue; this pack runs the investigation end to end.
 
 ## The one idea
 
@@ -79,14 +79,29 @@ Requires only base Claude Code. Everything below is optional.
 
 | Role in the pipeline | Preferred adapter | Fallback when absent |
 |---|---|---|
-| Ideation + idea triage | `research-companion` | start from your framing; create a minimal eval record |
-| Source → executable tools | Paper2Agent / an MCP tool server | a local module of functions the agents call |
-| Literature audit | scite MCP | WebSearch + WebFetch + manual Crossref/DataCite checks |
-| Drafting / writing review | `academic-writing-agents` | run the same standards in a general subagent |
+| Ideation + idea triage | [research-companion](https://github.com/andrehuang/research-companion) | start from your framing; create a minimal eval record |
+| Source → executable tools | [Paper2Agent](https://github.com/jmiao24/Paper2Agent) / an [MCP](https://modelcontextprotocol.io) tool server | a local module of functions the agents call |
+| Literature audit | [scite](https://scite.ai) MCP | WebSearch + WebFetch + manual Crossref/DataCite checks |
+| Drafting / writing review | [academic-writing-agents](https://github.com/andrehuang/academic-writing-agents) | run the same standards in a general subagent |
 | Domain analysis / database | the field's own tool/model/database | code the analysis directly |
 
 How each one plugs in, and what flows across the seam, is in
 [`integrations.md`](skills/agentic-research-pipeline/references/integrations.md).
+
+## Pairs well with
+
+- [**research-companion**](https://github.com/andrehuang/research-companion) ⭐ the recommended
+  pairing. Strategic ideation (brainstorm, evaluate, decide); hand its PURSUE verdict to this pack to
+  execute. Ships inside [researcher-pack](https://github.com/andrehuang/researcher-pack).
+- [**Paper2Agent**](https://github.com/jmiao24/Paper2Agent) turns a paper and its code into an
+  [MCP](https://modelcontextprotocol.io) tool server. This is the Layer-2 "source to tools" adapter.
+- [**scite**](https://scite.ai) provides Smart Citations and full-text search for the literature
+  audit (Stage 6).
+- [**academic-writing-agents**](https://github.com/andrehuang/academic-writing-agents) brings drafting,
+  review, and bibliography agents for the Stage-7 write-up.
+
+None of these is required. Each has a fallback (see the table above and `integrations.md`), so the
+pipeline runs self-contained and gets better where an adapter is present.
 
 ## Repository layout
 
@@ -108,6 +123,14 @@ agentic-research-pack/
 ├── LICENSE                   # MIT
 └── README.md
 ```
+
+## Credits
+
+Inspired by [research-companion](https://github.com/andrehuang/research-companion) and
+[researcher-pack](https://github.com/andrehuang/researcher-pack) (by `andrehuang`), whose "pairs well
+with" structure this README follows. The verification-first method is distilled from the IAISS
+C9orf72-Nature2Agent course project, which was itself built on the
+[Paper2Agent](https://github.com/jmiao24/Paper2Agent) idea.
 
 ## License
 
