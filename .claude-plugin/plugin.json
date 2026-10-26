@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "author": { "name": "Samuele Dell'Oca" },
   "license": "MIT",
+  "icon": "./assets/icon.png",
   "homepage": "https://github.com/samueledelloca/agentic-research-pack",
   "repository": "https://github.com/samueledelloca/agentic-research-pack",
   "keywords": [
