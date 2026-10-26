@@ -1,0 +1,9 @@
+# OS / editor
+.DS_Store
+*.swp
+*~
+
+# local, not part of the pack
+.venv/
+__pycache__/
+*.log

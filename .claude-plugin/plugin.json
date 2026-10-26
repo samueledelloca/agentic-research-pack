@@ -1,0 +1,19 @@
+{
+  "name": "agentic-research-pipeline",
+  "description": "Run a verified, reproducible multi-agent research investigation on any topic: expose a paper or dataset as callable tools, reproduce its claims, generate and adversarially verify new findings, audit the literature, and evaluate the system. Domain-independent (biology, HCI, systems, policy); self-contained with optional adapters for research-companion, academic-writing-agents, and scite.",
+  "version": "0.1.0",
+  "author": { "name": "Samuele Dell'Oca" },
+  "license": "MIT",
+  "homepage": "https://github.com/samueledelloca/agentic-research-pack",
+  "repository": "https://github.com/samueledelloca/agentic-research-pack",
+  "keywords": [
+    "research",
+    "multi-agent",
+    "paper2agent",
+    "reproducibility",
+    "verification",
+    "mcp",
+    "literature-review",
+    "evaluation"
+  ]
+}

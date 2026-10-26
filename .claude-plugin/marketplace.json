@@ -1,0 +1,12 @@
+{
+  "name": "agentic-research",
+  "description": "Agentic Research Pack: a domain-independent, verification-first research pipeline skill that pairs with research-companion.",
+  "owner": { "name": "Samuele Dell'Oca" },
+  "plugins": [
+    {
+      "name": "agentic-research-pipeline",
+      "source": "./",
+      "description": "Execute a rigorous multi-agent research investigation: Paper2Agent-style tools, reproduce-and-extend, adversarial verification, literature audit, two-axis evaluation. Starts from a paper or from a research-companion idea."
+    }
+  ]
+}
