@@ -1,6 +1,6 @@
 {
   "name": "agentic-research-pipeline",
-  "description": "Run a verified, reproducible multi-agent research investigation on any topic: expose a paper or dataset as callable tools, reproduce its claims, generate and adversarially verify new findings, audit the literature, and evaluate the system. Domain-independent (biology, HCI, systems, policy); self-contained with optional adapters for research-companion, academic-writing-agents, and scite.",
+  "description": "Run a verified, reproducible multi-agent research investigation on any topic. Start from a paper, a dataset, or an idea (for example a research-companion verdict) and fetch sources as you go. Expose the material as callable tools, reproduce what is known, generate and adversarially verify new findings, audit the literature, and evaluate the system. Domain-independent (biology, HCI, systems, policy); self-contained with optional adapters for research-companion, Paper2Agent, scite, and academic-writing-agents.",
   "version": "0.1.0",
   "author": { "name": "Samuele Dell'Oca" },
   "license": "MIT",
